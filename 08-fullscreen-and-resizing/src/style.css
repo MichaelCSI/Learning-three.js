@@ -1,0 +1,18 @@
+/*CSS to get rid of ugly border*/
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.webgl{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+html,
+body{
+    overflow: hidden;
+}
