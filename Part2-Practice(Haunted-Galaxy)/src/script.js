@@ -269,7 +269,7 @@ scene.add(ghost1, ghost2, ghost3)
          // Random offset from branch BASED ON RADIUS, to be used as "x offset"
          const spinAngle = radius * parameters.spin
  
-         // Random offset from branch, to be used as "y offset"
+         // Random offset from branch
          // Using power so as to not have a linear distribution of particles
          // Using sign value at the end to distribute them in the positive and negative: T = 1, F = -1
          const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) 
@@ -285,6 +285,7 @@ scene.add(ghost1, ghost2, ghost3)
          positions[i3 + 1] = randomY + 5
          // Z
          positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
+         console.log(positions[i3] + ", " + positions[i3+1] + ", " + positions[i3+2])
  
          // COLOR
          // Clone so we don't change original color
