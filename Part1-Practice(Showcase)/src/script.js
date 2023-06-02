@@ -19,14 +19,10 @@ const gui = new dat.GUI({ width: 360 })
 const canvas = document.querySelector('canvas.webgl')
 //Scene
 const scene = new THREE.Scene()
-//scene.background = new THREE.Color(0x222222)
-
 
 //Textures
 const textureLoader = new THREE.TextureLoader()
 const matCap3Texture = textureLoader.load('/textures/matcaps/3.png')
-const matCap4Texture = textureLoader.load('/textures/matcaps/4.png')
-const matCap8Texture = textureLoader.load('/textures/matcaps/8.png')
 const gradientTexture = textureLoader.load('/textures/gradients/5.jpg')
 gradientTexture.minFilter = THREE.NearestFilter
 gradientTexture.magFilter = THREE.NearestFilter
@@ -48,7 +44,6 @@ const environmentTexture = cubeTextureLoader.load([
 
 //Materials
 const matCap3 = new THREE.MeshMatcapMaterial({ matcap: matCap3Texture })
-const matCap8 = new THREE.MeshMatcapMaterial({ matcap: matCap8Texture })
 const diamond = new THREE.MeshBasicMaterial({ map: minecraftTexture })
 
 const env = new THREE.MeshStandardMaterial()
@@ -57,12 +52,8 @@ env.metalness = 1
 env.roughness = 0
 env.side = THREE.DoubleSide
 
-const surround = new THREE.MeshMatcapMaterial({ color: 0xffffbb, matcap: matCap4Texture})
-surround.side = THREE.DoubleSide
-
 const toon = new THREE.MeshToonMaterial({ color: 0xc48b5d })
 toon.gradientMap = gradientTexture
-
 
 
 //Fonts/text
@@ -89,7 +80,6 @@ fontLoader.load('/fonts/gentilis_bold.typeface.json', (font) => {
 
 //Objects
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), env)
-//const sphere = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), matCap3)
 sphere.position.y = 1
 scene.add(sphere)
 
@@ -103,14 +93,12 @@ donut.position.y = 1
 donut.position.x = 2.5
 scene.add(donut)
 
-const outer = new THREE.Mesh(new THREE.SphereGeometry(8, 64, 64), surround)
-//scene.add(outer)
-
 
 //Lights
 const ambientLight = new THREE.AmbientLight()
+ambientLight.intensity = 0.5
 const pointLight = new THREE.PointLight()
-pointLight.intensity = 0.1
+pointLight.intensity = 0.5
 scene.add(ambientLight, pointLight)
 
 /**
@@ -203,7 +191,6 @@ const generateGalaxy = () => {
 
     // Particles
     particles = new THREE.Points(particlesGeometry, particlesMaterial)
-    particles.rotation.x = -Math.PI * 0.1
     scene.add(particles)
 }
 generateGalaxy()
@@ -245,7 +232,7 @@ window.addEventListener('resize', () =>{
 
 //Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width/sizes.height, 0.1, 100)
-camera.position.y = 2
+camera.position.y = 2.5
 camera.position.z = 8
 camera.rotation.x = Math.PI * 0.5
 scene.add(camera)
@@ -253,7 +240,7 @@ scene.add(camera)
 //Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
-controls.target.set(0, 1, 0)
+controls.target.set(0, 3, 0)
 
 //Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -269,8 +256,6 @@ const clock = new THREE.Clock()
 const tick = () =>{
     const elapsedTime = clock.getElapsedTime();
     const sin = Math.sin(elapsedTime)
-    const cos = Math.cos(elapsedTime)
-    const rand = Math.random()-0.5
 
     //Update controls
     controls.update()
